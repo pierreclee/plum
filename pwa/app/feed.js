@@ -19,7 +19,9 @@ async function loadFeed(category = null) {
     const { data } = await res.json();
     renderFeed(data);
   } catch (_err) {
-    const cached = await caches.match(url).catch(() => null);
+    const cached = typeof caches !== 'undefined'
+      ? await caches.match(url).catch(() => null)
+      : null;
     if (cached) {
       const { data } = await cached.json();
       renderFeed(data);
@@ -36,18 +38,21 @@ function renderFeed(topics) {
     feedEl.innerHTML = '<div class="loading">Aucune actualité pour le moment.</div>';
     return;
   }
-  feedEl.innerHTML = topics.map((t) => `
+  feedEl.innerHTML = topics.map((t) => {
+    const count = parseInt(t.article_count, 10) || 0;
+    return `
     <article class="card">
       <div class="card-category">${escapeHtml(t.category)}</div>
       <div class="card-title">${escapeHtml(t.title)}</div>
       ${t.summary ? `<div class="card-summary">${escapeHtml(t.summary)}</div>` : ''}
       <div class="card-meta">
-        <span>${t.article_count} source${t.article_count > 1 ? 's' : ''}</span>
+        <span>${count} source${count > 1 ? 's' : ''}</span>
         ${t.sources.length ? `<span>${escapeHtml(t.sources.slice(0, 2).join(', '))}</span>` : ''}
         ${t.published_at ? `<span>${new Date(t.published_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</span>` : ''}
       </div>
     </article>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function escapeHtml(str) {

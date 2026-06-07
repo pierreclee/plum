@@ -4,9 +4,10 @@ const STATIC_ASSETS = ['/', '/manifest.json', '/app/feed.js', '/app/streak.js', 
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(STATIC_ASSETS))
+      .then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -29,11 +30,16 @@ self.addEventListener('fetch', (event) => {
           }
           return response;
         })
-        .catch(() => {
+        .catch(async () => {
           self.clients.matchAll().then((clients) =>
             clients.forEach((c) => c.postMessage({ type: 'OFFLINE' }))
           );
-          return caches.match(event.request);
+          const cached = await caches.match(event.request);
+          if (cached) return cached;
+          return new Response(JSON.stringify({ error: 'offline', data: [], meta: {} }), {
+            status: 503,
+            headers: { 'Content-Type': 'application/json' }
+          });
         })
     );
     return;
