@@ -1,7 +1,13 @@
 const CACHE_NAME = 'plum-v1';
 const FEED_PATTERN = /\/api\/feed/;
+const STATIC_ASSETS = ['/', '/manifest.json', '/app/feed.js', '/app/streak.js', '/app/categories.js'];
 
-self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
+  );
+  self.skipWaiting();
+});
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
@@ -13,22 +19,28 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  if (!FEED_PATTERN.test(event.request.url)) return;
+  if (FEED_PATTERN.test(event.request.url)) {
+    event.respondWith(
+      fetch(event.request.clone())
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => {
+          self.clients.matchAll().then((clients) =>
+            clients.forEach((c) => c.postMessage({ type: 'OFFLINE' }))
+          );
+          return caches.match(event.request);
+        })
+    );
+    return;
+  }
 
+  // Cache-first for static assets
   event.respondWith(
-    fetch(event.request.clone())
-      .then((response) => {
-        if (response.ok) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-        }
-        return response;
-      })
-      .catch(() => {
-        self.clients.matchAll().then((clients) =>
-          clients.forEach((c) => c.postMessage({ type: 'OFFLINE' }))
-        );
-        return caches.match(event.request);
-      })
+    caches.match(event.request).then((cached) => cached || fetch(event.request))
   );
 });

@@ -9,7 +9,7 @@ async function loadFeed(category = null) {
   const feedEl = document.getElementById('feed');
   feedEl.innerHTML = '<div class="loading">Chargement…</div>';
 
-  const params = new URLSearchParams({ limit: '30' });
+  const params = new URLSearchParams({ limit: '20' });
   if (category) params.set('category', category);
   const url = `${API_BASE}/api/feed?${params}`;
 
@@ -44,6 +44,7 @@ function renderFeed(topics) {
       <div class="card-meta">
         <span>${t.article_count} source${t.article_count > 1 ? 's' : ''}</span>
         ${t.sources.length ? `<span>${escapeHtml(t.sources.slice(0, 2).join(', '))}</span>` : ''}
+        ${t.published_at ? `<span>${new Date(t.published_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</span>` : ''}
       </div>
     </article>
   `).join('');
