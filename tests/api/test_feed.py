@@ -1,5 +1,5 @@
 from datetime import datetime
-from api.models import Topic, WorkerState
+from models import Topic, WorkerState
 
 
 def test_get_categories(client):

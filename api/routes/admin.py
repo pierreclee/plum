@@ -2,9 +2,9 @@ import os
 from fastapi import APIRouter, Depends, HTTPException, Header
 from sqlalchemy.orm import Session
 from typing import Optional
-from ..database import get_db
-from ..models import WorkerState
-from ..schemas import WorkerStatusOut
+from database import get_db
+from models import WorkerState
+from schemas import WorkerStatusOut
 
 router = APIRouter()
 

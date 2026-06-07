@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
-from .database import engine, Base
-from .routes.feed import router as feed_router
-from .routes.admin import router as admin_router
+from database import engine, Base
+from routes.feed import router as feed_router
+from routes.admin import router as admin_router
 
 Base.metadata.create_all(bind=engine)
 

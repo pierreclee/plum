@@ -1,7 +1,7 @@
 import os
 from unittest.mock import patch
 from datetime import datetime
-from api.models import WorkerState
+from models import WorkerState
 
 
 def test_refresh_without_key_returns_403(client):
