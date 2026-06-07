@@ -1,4 +1,4 @@
-const CACHE_NAME = 'plum-v1';
+const CACHE_NAME = 'plum-v2';
 const FEED_PATTERN = /\/api\/feed/;
 const STATIC_ASSETS = ['/', '/manifest.json', '/app/feed.js', '/app/streak.js', '/app/categories.js'];
 
