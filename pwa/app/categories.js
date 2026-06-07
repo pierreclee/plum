@@ -23,7 +23,7 @@ async function initCategories() {
       ? window.API_BASE
       : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
           ? 'http://localhost:8000'
-          : '');
+          : 'https://api-production-0286.up.railway.app');
     const res = await fetch(apiBase + '/api/categories');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();

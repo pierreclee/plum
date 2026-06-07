@@ -2,7 +2,7 @@ const API_BASE = (() => {
   const { hostname } = window.location;
   return hostname === 'localhost' || hostname === '127.0.0.1'
     ? 'http://localhost:8000'
-    : '';
+    : 'https://api-production-0286.up.railway.app';
 })();
 
 async function loadFeed(category = null) {
