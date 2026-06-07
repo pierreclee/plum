@@ -1,7 +1,7 @@
 import asyncio
 import hashlib
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Dict, Any
 
 import feedparser
@@ -32,7 +32,7 @@ def guess_category(title: str, content: str = "") -> str:
 
 
 async def _fetch_source(source: RssSource) -> List[Dict[str, Any]]:
-    loop = asyncio.get_event_loop()
+    loop = asyncio.get_running_loop()
     try:
         feed = await loop.run_in_executor(None, feedparser.parse, source.url)
         articles = []
@@ -45,7 +45,7 @@ async def _fetch_source(source: RssSource) -> List[Dict[str, Any]]:
             content_list = getattr(entry, "content", [])
             content = content_list[0].get("value", "") if content_list else summary
             published = getattr(entry, "published_parsed", None)
-            published_at = datetime(*published[:6]) if published else datetime.utcnow()
+            published_at = datetime(*published[:6], tzinfo=timezone.utc) if published else datetime.now(timezone.utc)
             articles.append({
                 "url_hash": url_hash(url),
                 "source_url": url,
