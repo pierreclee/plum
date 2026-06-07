@@ -87,3 +87,8 @@ def test_get_feed_topic_detail(client, db):
     res = client.get(f"/api/feed/{topic.id}")
     assert res.status_code == 200
     assert res.json()["id"] == topic.id
+
+
+def test_get_feed_invalid_category_returns_422(client):
+    res = client.get("/api/feed?category=invalid")
+    assert res.status_code == 422

@@ -10,7 +10,7 @@ router = APIRouter()
 CATEGORIES = ["france", "monde", "tech", "eco", "sport"]
 
 
-@router.get("/categories")
+@router.get("/categories", response_model=list[str])
 def get_categories():
     return CATEGORIES
 
@@ -22,6 +22,9 @@ def get_feed(
     offset: int = Query(default=0, ge=0),
     db: Session = Depends(get_db),
 ):
+    if category and category not in CATEGORIES:
+        raise HTTPException(status_code=422, detail=f"Invalid category. Must be one of: {CATEGORIES}")
+
     query = db.query(Topic).filter(Topic.summary_status.in_(["done", "failed"]))
     if category:
         query = query.filter(Topic.category == category)
