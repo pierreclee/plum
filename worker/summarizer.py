@@ -5,7 +5,7 @@ from typing import List
 from anthropic import Anthropic
 from sqlalchemy.orm import Session
 
-from worker.models import Topic, TopicArticle, ArticleRaw
+from models import Topic, TopicArticle, ArticleRaw
 
 logger = logging.getLogger(__name__)
 

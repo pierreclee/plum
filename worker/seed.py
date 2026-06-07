@@ -3,8 +3,8 @@ Initialise la base de données avec des sources RSS de départ.
 Lancer une seule fois : python -m worker.seed
 """
 import logging
-from worker.database import SessionLocal, engine, Base
-from worker.models import RssSource, WorkerState
+from database import SessionLocal, engine, Base
+from models import RssSource, WorkerState
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timezone
 from sqlalchemy import Column, String, Integer, Boolean, DateTime, Text, ForeignKey
-from worker.database import Base
+from database import Base
 
 
 def new_uuid() -> str:

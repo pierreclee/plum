@@ -5,12 +5,12 @@ from datetime import datetime, timezone
 from apscheduler.schedulers.background import BackgroundScheduler
 from sqlalchemy.orm import Session
 
-from worker.database import SessionLocal, engine, Base
-from worker.models import WorkerState
-from worker.ingestion import ingest
-from worker.clustering import cluster_and_save
-from worker.summarizer import summarize_pending
-from worker.cleanup import cleanup
+from database import SessionLocal, engine, Base
+from models import WorkerState
+from ingestion import ingest
+from clustering import cluster_and_save
+from summarizer import summarize_pending
+from cleanup import cleanup
 
 logging.basicConfig(
     level=logging.INFO,

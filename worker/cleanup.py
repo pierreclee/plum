@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime, timedelta, timezone
 from sqlalchemy.orm import Session
-from worker.models import ArticleRaw, Topic
+from models import ArticleRaw, Topic
 
 logger = logging.getLogger(__name__)
 

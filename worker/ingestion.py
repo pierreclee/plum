@@ -7,7 +7,7 @@ from typing import List, Dict, Any
 import feedparser
 from sqlalchemy.orm import Session
 
-from worker.models import ArticleRaw, RssSource
+from models import ArticleRaw, RssSource
 
 logger = logging.getLogger(__name__)
 
