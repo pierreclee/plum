@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import Optional
-from api.database import get_db
-from api.models import Topic, TopicArticle, ArticleRaw, WorkerState
-from api.schemas import FeedResponse, TopicOut, FeedMeta
+from ..database import get_db
+from ..models import Topic, TopicArticle, ArticleRaw, WorkerState
+from ..schemas import FeedResponse, TopicOut, FeedMeta
 
 router = APIRouter()
 
