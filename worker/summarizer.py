@@ -15,8 +15,10 @@ SYSTEM_PROMPT = (
     "Réponds uniquement en JSON valide, sans markdown, avec exactement ces deux clés :\n"
     '{"title": "...", "summary": "..."}\n'
     "Règles :\n"
-    "- title : 6 à 10 mots, en français, factuel, percutant\n"
-    "- summary : 1 seule phrase, maximum 25 mots, en français, faits uniquement\n"
+    "- Identifie d'abord le fait principal de l'événement.\n"
+    "- title : reformule ce fait en 6 à 10 mots, en français, comme un titre de journal\n"
+    "- summary : développe ce même fait en 1 phrase, maximum 25 mots, en français — "
+    "le summary doit être la suite logique du title, pas une information différente\n"
     "Aucun jugement de valeur, aucune opinion."
 )
 
