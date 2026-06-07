@@ -50,7 +50,7 @@ def pick_title(articles: List[ArticleRaw]) -> str:
 
 
 def cluster_and_save(db: Session) -> int:
-    since = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+    since = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
     articles = db.query(ArticleRaw).filter(ArticleRaw.fetched_at >= since).all()
 
     if not articles:
